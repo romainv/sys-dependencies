@@ -1,0 +1,32 @@
+{
+  "name": "sys-dependencies",
+  "version": "0.1.0",
+  "description": "Manage system dependencies the npm way",
+  "author": "Romain Vermeulen",
+  "license": "MIT",
+  "homepage": "https://github.com/romainv/sys-dependencies",
+  "bugs": {
+    "url": "https://github.com/romainv/sys-dependencies/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/romainv/sys-dependencies.git"
+  },
+  "keywords": [
+    "system",
+    "dependencies",
+    "manager",
+    "npm",
+    "package"
+  ],
+  "main": "src/index.bash",
+  "bin": {
+    "spm": "spm"
+  },
+  "scripts": {
+	  "doctoc": "doctoc --title='## Contents' --github README.md"
+  },
+  "devDependencies": {
+    "doctoc": "^2.0.0"
+  }
+}

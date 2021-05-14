@@ -1,0 +1,27 @@
+{
+  "name": "PyEnv",
+  "sysDependencies": {
+    "MACOS": {
+      "brew/pyenv": "*"
+    },
+    "UBUNTU": {
+      "apt/build-essential": "*",
+      "apt/libssl-dev": "*",
+      "apt/zlib1g-dev": "*",
+      "apt/libbz2-dev": "*",
+      "apt/libreadline-dev": "*",
+      "apt/libsqlite3-dev": "*",
+      "apt/wget": "*",
+      "apt/curl": "*",
+      "apt/llvm": "*",
+      "apt/libncurses5-dev": "*",
+      "apt/libncursesw5-dev": "*",
+      "apt/xz-utils": "*",
+      "apt/tk-dev": "*",
+      "apt/libffi-dev": "*",
+      "apt/liblzma-dev": "*",
+      "apt/python-openssl": "*",
+      "apt/git": "*"
+    }
+  }
+}

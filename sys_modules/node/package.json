@@ -1,0 +1,6 @@
+{
+  "name": "Node",
+  "sysDependencies": {
+    "nvm": "*"
+  }
+}

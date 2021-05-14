@@ -1,0 +1,14 @@
+{
+  "name": "spm",
+  "sysDependencies": {
+  	"UBUNTU": {
+      "apt/git": "*"
+		},
+    "file/<rcfile>": {
+      "addToFile": [
+        "export SPM_DIR=\"$HOME/.spm\"",
+        "[ -s \"$SPM_DIR/src/index.bash\" ] && source \"$SPM_DIR/src/index.bash\""
+      ]
+    }
+  }
+}

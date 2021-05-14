@@ -1,0 +1,9 @@
+#!/bin/bash
+# This provides an executable access to spm
+
+# Import the main function by retrieving the current file's directory, 
+# including when it is symlinked
+# shellcheck source=./src/index.bash
+source "$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")" \
+	&& pwd)/src/index.bash"
+spm "$@" # Forward all arguments

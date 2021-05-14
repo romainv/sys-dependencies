@@ -1,0 +1,12 @@
+{
+  "name": "core",
+  "sysDependencies": {
+    "UBUNTU": {
+      "apt/jq": "*",
+      "apt/curl": "*"
+    },
+    "MACOS": {
+      "brew/jq": "*"
+    }
+  }
+}

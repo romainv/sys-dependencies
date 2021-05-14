@@ -1,0 +1,6 @@
+{
+  "name": "Python",
+  "sysDependencies": {
+    "pyenv": "*"
+  }
+}

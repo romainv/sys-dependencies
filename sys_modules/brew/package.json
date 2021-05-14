@@ -1,0 +1,13 @@
+{
+  "name": "Homebrew",
+  "sysDependencies": {
+    "UBUNTU": {
+      "apt/build-essential": "*",
+      "apt/curl": "*",
+      "apt/file": "*"
+    },
+    "MACOS": {
+      "xcode": "*"
+    }
+  }
+}
