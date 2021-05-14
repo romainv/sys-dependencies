@@ -1,6 +1,6 @@
 {
   "name": "sys-dependencies",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Manage system dependencies the npm way",
   "author": "Romain Vermeulen",
   "license": "MIT",
