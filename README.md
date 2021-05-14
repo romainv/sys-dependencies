@@ -131,8 +131,8 @@ spm update spm
 
 ## Usage
 sys-dependencies provides the `spm` command to manage dependencies. For basic
-usage instructions, run `spm help` to display the available commands, arguments
-and optional environment variables.  
+usage instructions, run `spm help` to display the available commands and 
+arguments.  
 Below we detail how to [define](#declaring-system-dependencies) your system 
 dependencies, [install](#installing-packages) and 
 [update](#upgrading-packages) them.

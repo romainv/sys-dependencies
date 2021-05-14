@@ -35,7 +35,7 @@ getLatestVersion() {
 	# any leading 'v'
 	curl -sS https://api.github.com/repos/nvm-sh/nvm/releases \
 		| jq -r ".[0].tag_name" \
-		| sed -E "s/v(.*)/\1/"
+		| sed -E "s/v(.*)/\\1/"
 }
 
 checkUpdates() { 

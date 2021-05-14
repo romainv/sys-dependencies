@@ -17,7 +17,8 @@ getInstalledVersion() {
 
 getLatestVersion() { 
 	curl -sS https://api.github.com/repos/romainv/sys-dependencies/releases \
-		| jq -r ".[0].name"
+		| jq -r ".[0].name" \
+		| sed -E "s/v(.*)/\\1/"
 }
 
 checkUpdates() { 

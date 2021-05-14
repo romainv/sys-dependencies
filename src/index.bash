@@ -18,13 +18,6 @@ Optional arguments:
   -q, --hide-unchanged  don't display modules which didn't change
 	-f, --force           (re)install the dependencies even if not needed
   -v, --version         display the current version of spm
-
-Optional env variables:
-  SPM_SKIP_CORE         set to 'true' to not install spm's self dependencies
-  SPM_DRY_RUN           set to 'true' to only check for changes
-  SPM_UPDATE            set to 'true' to update dependencies
-	SPM_FORCE             set to 'true' to force (re)installing dependencies
-  SPM_HIDE_UNCHANGED    set to 'true' to hide unchanged modules
 END
 )
 export SPM_USAGE
@@ -32,12 +25,12 @@ spm() {
 	# Check and retrieve CLI arguments
 	local args # Will contain the command arguments
 	local commandArg="" # Will contain the command to execute
-	local skipCore=${SPM_SKIP_CORE:-false} # Whether to install core dependencies
-	SPM_DRY_RUN=${SPM_DRY_RUN:-false} # Whether to make any changes 
-	SPM_UPDATE=${SPM_UPDATE:-false} # Whether to update installed dependencies
-	SPM_FORCE=${SPM_FORCE:-false} # Whether to force the installation or update
+	local skipCore=false # Whether to install core dependencies
+	SPM_DRY_RUN=false # Whether to make any changes 
+	SPM_UPDATE=false # Whether to update installed dependencies
+	SPM_FORCE=false # Whether to force the installation or update
 	# Whether unchanged dependencies should be hidden
-	SPM_HIDE_UNCHANGED=${SPM_HIDE_UNCHANGED:-false} 
+	SPM_HIDE_UNCHANGED=false
 	MODULES=() # Will contain the modules to process 
 	while [ "$1" != "" ]; do
 		case $1 in
