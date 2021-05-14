@@ -88,7 +88,7 @@ This way to install sys-dependencies is essentially equivalent to executing the
 steps are as follows:
 ```bash
 git clone https://github.com/romainv/sys-dependencies.git ~/.spm
-~/.spm/spm install spm
+~/.spm/spm update spm
 source ~/.bashrc
 ```
 This obviously requires that [`git`](https://git-scm.com) be installed. Other
@@ -262,7 +262,7 @@ module which works as follows:
 {
   "sysDependencies": {
     "file/<target-file>": {
-      "<action>": <arguments>,
+      "<action>": "<arguments>",
       "onUpdate": "<onUpdate-command>"
     }
   }
@@ -273,7 +273,7 @@ In the above sample:
 	refer to the `$HOME` folder. To point at your OS' rcfile, you can use
 	`<rcfile>` (see [`decodeFilename`](./sys_modules/file/decodeFilename.bash)
 	for details)  
-- `"<action>": <arguments>` can be one of the following (see
+- `"<action>": "<arguments>"` can be one of the following (see
 	[`processConfigFile`](./sys_modules/file/processConfigFile.bash) for
 	details):  
 	- `"copy": "<source-file>"`: to copy the `<source-file>` to the 
