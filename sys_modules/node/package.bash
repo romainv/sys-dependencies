@@ -131,9 +131,9 @@ postProcess() {
 				"(currently using v${currentVersion})${NORMAL}"
 			true # Indicate something was displayed
 		else
-			false # Indicate nothing changed
+			return 2 # Indicate nothing changed
 		fi
 	else
-		false # Indicate nothing changed
+		return 2 # Indicate nothing changed
 	fi
 }

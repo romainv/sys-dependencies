@@ -33,7 +33,7 @@ iniConfigFile() {
 			status=$?
 			if [[ ! $status -eq 0 && ! $status -eq 100 ]]; then
 				echo "Error retrieving value for ${key} in ${targetFile}"
-				exit $status # Exit if an error occurred
+				return $status # Exit if an error occurred
 			fi
 			if [[ "$previousValue" != "$value" ]]; then
 				# If an update is required
@@ -44,11 +44,11 @@ iniConfigFile() {
 					updated=true # Indicate update was successful
 				else # If an error occured
 					[ -n "$result" ] && echo "$result"
-					exit 1
+					return 1
 				fi
 			fi
 		done
 	done
 	# Indicate if file was updated or not
-	$updated
+	$updated && return 0 || return 2
 }

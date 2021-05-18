@@ -43,7 +43,7 @@ spm() {
 			-v|--version) commandArg="version" ;;
 			# First positional argument: the command to execute
 			install|update|help|version) commandArg="$1" ;;
-			-*) echo "Warning: parameter '$1' not recognized" && exit 1 ;;
+			-*) echo "Error: parameter '$1' not recognized" && return 1 ;;
 			# Further positional arguments: specific modules
 			*) MODULES+=("$1") ;; 
 		esac
@@ -111,13 +111,16 @@ spm() {
 	# Process dependencies recursively
 	local totalChanges=0
 	for module in "${MODULES[@]}"; do
-		if processModule "$module"; then
-			# If module had changes
-			totalChanges=$((totalChanges+1)) # Increment changes 
-		elif $SPM_HIDE_UNCHANGED; then 
-			# If module had no changes and we should hide it
-			echo -e "${LINE_START}${CLEAR_LINE}${PREVIOUS_LINE}" # Hide module
-		fi
+		processModule "$module"
+		local exitCode=$?
+		[ $exitCode -eq 1 ] \
+			&& return 1 # An error occurred
+		[ $exitCode -eq 0 ] \
+			&& totalChanges=$((totalChanges+1)) # Increment changes 
+		# If module had no changes and we should hide it
+		[ $exitCode -eq 2 ] \
+			&& $SPM_HIDE_UNCHANGED \
+			&& echo -e "${LINE_START}${CLEAR_LINE}${PREVIOUS_LINE}" # Hide module
 	done
 	# Display at least something if we hide everything so far
 	[ $totalChanges -eq 0 ] \

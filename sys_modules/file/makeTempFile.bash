@@ -11,19 +11,19 @@ makeTempFile() {
 	local output 
 	if [[ "$sourceFile" == http* ]]; then 
 		# If source file is remote
-		cd "$tmpDir" || exit 1 # Go to temp dir, which should be empty
+		cd "$tmpDir" || return 1 # Go to temp dir, which should be empty
 		if ! output=$(wget -q "$sourceFile" 2>&1); then 
 			# Download source file in temp dir
 			echo "${RED}failed${NORMAL}"
 			[ -n "$output" ] && echo "$output"
 			rm -rf -- "$tmpDir" # Cleanup
-			exit 1 # Exit if download failed
+			return 1 # Exit if download failed
 		else
 			# Retrieve path from the only file in the temp dir
 			local file
 			for file in *; do sourceFile="$tmpDir/$file"; done 
 		fi
-		cd ~- || exit 1 # Go back to previous directory
+		cd ~- || return 1 # Go back to previous directory
 	elif [[ "$sourceFile" == "true &&"* ]]; then 
 		# If source file is a command
 		local command="$sourceFile"
@@ -34,7 +34,7 @@ makeTempFile() {
 			echo "${RED}failed${NORMAL}"
 			cat "$tmpDir/command.log" # Display the logs that were captured
 			rm -rf -- "$tmpDir" # Cleanup
-			exit 1 # Make sure script execution stops here
+			return 1 # Make sure script execution stops here
 		fi
 	else # If source file is local
 		local sourcePath="$PARENT_MODULE_DIR" # Determine the file's source path
@@ -47,7 +47,7 @@ makeTempFile() {
 			echo "${RED}failed${NORMAL}"
 			[ -n "$output" ] && echo "$output"
 			rm -rf -- "$tmpDir" # Cleanup
-			exit 1 # Exit if download failed
+			return 1 # Exit if download failed
 		else
 			sourceFile="$tmpFile" # Update source path
 		fi

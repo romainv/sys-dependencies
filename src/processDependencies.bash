@@ -32,8 +32,10 @@ processDependencies() {
 			# processDependencies runs in a subshell. It will only be available in
 			# other dependencies
 			# Extract the parameter name in 'param/<name>'
-			processParameter "${depId#*/}" "$depValue" \
-				&& changes=$((changes+1)) # Increment changes if any
+			processParameter "${depId#*/}" "$depValue"
+			local exitCode=$?
+			[ $exitCode -eq 0 ] && changes=$((changes+1)) # Increment changes if any
+			[ $exitCode -eq 1 ] && return 1 # Error
 		elif elementIn "$depId" "${OS_LIST[@]}"; then
 			# If current dependency specifies an OS
 			# Check if dependency should be processed
@@ -47,22 +49,24 @@ processDependencies() {
 				(processDependencies "$depValue")
 				local depStatus=$?
 				# Propagate request to terminate parent shells
-				[ $depStatus -eq 1 ] && exit 1 
+				[ $depStatus -eq 1 ] && return 1 
 				# Indicate there were no changes
 				[ ! $depStatus -eq 0 ] && changes=$((changes+1)) 
 			fi
 		else # If dependency is not an OS
 			# Recursively process module
-			processModule "$depId" "$depValue" \
-				&& changes=$((changes+1)) # Increment changes if any
+			processModule "$depId" "$depValue"
+			local exitCode=$?
+			[ $exitCode -eq 0 ] && changes=$((changes+1)) # Increment changes if any
+			[ $exitCode -eq 1 ] && return 1 # Error
 		fi
 	done
 	# Indicate whether there have been changes
 	if [ "$changes" -gt 0 ]; then
 		# We return 2 if changes have been made to differenciate failures (exit 1) 
 		# from no changes
-		exit 2
+		return 2
 	else
-		exit 0
+		return 0
 	fi
 }

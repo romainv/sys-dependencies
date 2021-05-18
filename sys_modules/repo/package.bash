@@ -23,7 +23,7 @@ checkUpdates() {
 			&& git remote update 2>&1 \
 			&& git status 2>&1); then
 		# If update check failed
-		echo "$check" && exit 1
+		echo "$check" && return 1
 	fi
 	# If update check succeeded
 	[[ ! "$check" =~ "Your branch is up to date" ]]

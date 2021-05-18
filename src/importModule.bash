@@ -50,13 +50,13 @@ importModule() {
 	if [ ! -s "$MODULE_DIR" ]; then # If file is missing or empty
 		echo "${RED}failed${NORMAL}"
 		echo "$MODULE_DIR is either missing or empty"
-		exit 1 
+		return 1 
 	fi
 	# Check if module has a JSON description
 	if [ ! -f "$moduleJSON" ]; then # If module's JSON file was not found
 		echo "${RED}failed${NORMAL}"
 		echo "${moduleJSON} was not found"
-		exit 1 
+		return 1 
 	fi
 	# Retrieve available sections from the module's JSON
 	# jq being one of the dependencies, we need to check first if it is available
@@ -73,14 +73,14 @@ importModule() {
 		# If something went wrong while sourcing file
 			echo "${RED}failed${NORMAL}"
 			echo "Error sourcing $MODULE_DIR/package.bash"
-			exit 1 
+			return 1 
 		fi
 		# Verify that all required exports are now defined
 		for moduleExport in "${MODULE_EXPORTS[@]}"; do
 			if [[ $(type -t "$moduleExport") != "function" ]]; then
 				echo "${RED}failed${NORMAL}"
 				echo "$moduleExport was not exported by module $MODULE_DIR"
-				exit 1 
+				return 1 
 			fi
 		done
 	fi

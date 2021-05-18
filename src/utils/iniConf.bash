@@ -82,7 +82,7 @@ writeConfKey() {
 		' "$confFile" >/dev/null 2>&1
 		status=$?
 		# Exit with sed's exit code if success or unexpected error
-		[[ $status -eq 0 || ! $status -eq 100 ]] && exit $status 
+		[[ $status -eq 0 || ! $status -eq 100 ]] && return $status 
 		# If prior attempt failed, try to append a new key definition in the 
 		# section - if the section exists
 		sed -i -E -e '
@@ -98,7 +98,7 @@ writeConfKey() {
 			' "$confFile" >/dev/null 2>&1
 		status=$?
 		# Exit with sed's exit code if success or unexpected error
-		[[ $status -eq 0 || ! $status -eq 100 ]] && exit $status 
+		[[ $status -eq 0 || ! $status -eq 100 ]] && return $status 
 		# If both section and key definition don't exist, add them to the file
 		echo -e "[${section}]\n${key}=${value}" >> "$confFile" 
 	fi

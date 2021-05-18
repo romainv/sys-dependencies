@@ -4,7 +4,7 @@
 # Arg $2: the destination. It should be of same nature as source, i.e. if $1 is
 # a file, $2 should too
 # Arg $3: 'true' if we should check only and not actually override
-# Returns: true if file was copied, false otherwise
+# Returns: true if file was copied, 2 otherwise
 override() {
 	# Retrieve arguments
 	local sourcePath="$1"
@@ -14,7 +14,7 @@ override() {
 	if [ ! -f "$sourcePath" ] && [ ! -d "$sourcePath" ]; then 
 		# If source file cannot be found
 		echo "skipped '$destPath': '$sourcePath' not found"
-		false # Indicate no changes were made
+		return 2 # Indicate no changes were made
 	elif [ -d "$sourcePath" ]; then 
 		# If source exists and is a folder
 		echo "" # Skip a line for better display
@@ -29,7 +29,7 @@ override() {
 		if [ $changes -gt 0 ]; then
 			true
 		else
-			false 
+			return 2 
 		fi
 	elif [ ! -f "$destPath" ] || ! cmp -s "$sourcePath" "$destPath"; then
 		# If source is an existing file and target doesn't exist or is different 
@@ -67,12 +67,12 @@ override() {
 					true # Indicate changes were made or are required
 				else
 					echo "$result"
-					false # Indicate failure
+					return 1 # Indicate failure
 				fi
 			fi
 		fi
 	else # Target file already up to date
 		echo "skipped '$destPath': no change"
-		false # Indicate no changes were made
+		return 2 # Indicate no changes were made
 	fi
 }

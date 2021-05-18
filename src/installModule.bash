@@ -25,12 +25,12 @@ installModule() {
 				local check
 				check=$(checkInstall "$name" "$version" 2>&1)
 				[ -n "$check" ] && printf "Check log:\n%s\n" "$check" | indent 2 
-				exit 1
+				return 1
 			fi
 		else # If install command failed
 			echo "${RED}install failed${NORMAL}"
 			[ -n "$result" ] && echo "$result" | indent 2 # Display error message 
-			exit 1 # Exit with error
+			return 1 # Exit with error
 		fi
 	fi
 	true # Indicate changes were made or are required

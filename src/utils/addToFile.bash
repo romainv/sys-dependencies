@@ -13,11 +13,11 @@ addToFile() {
 	fi
 	if [ -f "$file" ] && grep -qF "$line" "$file"; then 
 		# If line already exists in file, indicate no update was performed
-		false 
+		return 2 
 	elif $checkOnly; then # If line doesn't exist in file and we only check
 		true # Indicate an update is required
 	else # If line doesn't exist in file and we actually want to add it
 		if echo -e "$line" >> "$file"; then true # Indicate update was successful
-		else false; fi # Indicate update failed
+		else return 2; fi # Indicate update failed
 	fi
 }

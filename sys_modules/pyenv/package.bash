@@ -51,7 +51,7 @@ runUpdates() {
 }
 
 postProcess() {
-	local exitCode=1 # Will be turned to 0 if something was displayed
+	local exitCode=2 # Will be turned to 0 if something was displayed
 	if ! $SPM_DRY_RUN && [ "$MODULE_CHANGES" -gt 0 ]; then # If something changed 
 		local warnIcon="${YELLOW}${WARN_ICON}${NORMAL}${WARN_ICON:+ }"
 		echo -e "${warnIcon}Updated: make sure to source ~/.bashrc" 

@@ -11,7 +11,7 @@ linkConfigFile() {
 		&& [[ $(readlink -f "$targetFile") \
 			-ef $(rel2abs "$sourceFile" "$targetFile") ]]; then
 		# If target is already a symlink pointing to the source
-		false # Indicate no changes are required
+		return 2 # Indicate no changes are required
 	elif [[ "$checkOnly" == "true" ]]; then 
 		# If target doesn't point to source, and we're in dry-run mode
 		true # Indicate changes are required
@@ -22,7 +22,7 @@ linkConfigFile() {
 			true # Indicate changes were made
 		else # If an error occurred
 			[ -n "$result" ] && echo "$result" # Display error
-			exit 1
+			return 1
 		fi
 	fi
 }

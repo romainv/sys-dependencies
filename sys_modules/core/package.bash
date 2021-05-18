@@ -30,7 +30,7 @@ runInstall() {
 		# curl comes pre-installed with macos
 	else
 		echo "Installation of core dependencies is not supported on your system"
-		exit 1
+		return 1
 	fi
 }
 

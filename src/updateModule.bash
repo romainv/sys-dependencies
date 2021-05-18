@@ -15,14 +15,14 @@ updateModule() {
 		result=$(checkUpdates "$name" "$version" 2>&1)
 		if [[ -n "$result" ]]; then
 			printf "%b\n%s\n" "${RED}failed to check updates${NORMAL}" "${result}"
-			exit 1
+			return 1
 		else
 			# If dependency is already up-to-date
 			result="${GREY}up-to-date"
-			[ -n "$installedVersion" ] && result+=" ($installedVersion)"
+			[ -n "$installedVersion" ] && result+=" (v$installedVersion)"
 			result+="${NORMAL}"
 			echo "$result" | nowrap
-			false # Indicate no changes are required
+			return 2 # Indicate no changes are required
 		fi
 	else
 		if $SPM_DRY_RUN; then 
@@ -50,13 +50,13 @@ updateModule() {
 					echo "${RED}post-update check failed${NORMAL}"
 					# Display error message if any
 					[ -n "$result" ] && echo "$result" | indent 2 
-					exit 1 # Exit with error
+					return 1 
 				fi
 			else
 				echo "${RED}update failed${NORMAL}" 
 				# Display error message if any
 				[ -n "$result" ] && echo "$result" | indent 2 
-				exit 1 # Exit with error
+				return 1 
 			fi
 		fi
 		true # Indicate changes were made or are required

@@ -12,9 +12,11 @@ addToConfigFile() {
 			| base64 --decode \
 			| replaceParameters) # Decode base64 then replace params
 		# Append line if necessary
-		addToFile "$content" "$targetFile" "$checkOnly" \
-			&& updated=true
+		addToFile "$content" "$targetFile" "$checkOnly"
+		local exitCode=$?
+		[ $exitCode -eq 0 ]	&& updated=true
+		[ $exitCode -eq 1 ] && return 1
 	done
 	# Indicate if file was updated or update is needed
-	$updated
+	$updated && return 0 || return 2
 }

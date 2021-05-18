@@ -56,5 +56,5 @@ processParameter() {
 		echo -e "${prefix}=${GREY}${displayValue}${NORMAL}" | nowrap
 	fi
 	# Indicate whether there have been changes
-	[ "$changes" -gt 0 ]
+	[ "$changes" -gt 0 ] && return 0 || return 2
 }

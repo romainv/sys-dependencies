@@ -54,8 +54,11 @@ processConfigFile() {
 				linkConfigFile \
 					"$(jq -j ".link" <<< "${params}")" \
 					"$targetFile" \
-					"$checkOnly" \
-					&& updated=true ;;
+					"$checkOnly"
+				local exitCode=$?
+				[ $exitCode -eq 0 ] && updated=true
+				[ $exitCode -eq 1 ] && return
+				;;
 			ini) # If key-values are specified in INI format
 				iniConfigFile \
 					"$targetFile" \
@@ -63,9 +66,9 @@ processConfigFile() {
 					"$checkOnly" \
 					&& updated=true ;;
 			*) # If no action was specified
-				echo "missing parameters"
-				exit 1 ;;
+				echo "no file operation specified"
+				return 1 ;;
 		esac
 	# Indicate whether there has been changes
-	$updated
+	$updated && return 0 || return 2
 }

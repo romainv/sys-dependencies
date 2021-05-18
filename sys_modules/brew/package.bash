@@ -8,7 +8,7 @@ preProcess() {
 	[[ "$name" != "brew" ]] \
 		&& dependencies=$(jq -j ". += {\"brew\": \"*\"}" \
 			<<< "${dependencies}" 2>&1)
-	false # Indicate nothing was changed or displayed
+	return 2 # Indicate nothing was changed or displayed
 }
 
 checkInstall() {
@@ -40,7 +40,7 @@ runInstall() {
 					echo 'linuxbrew ALL=(ALL) NOPASSWD:ALL' >>/etc/sudoers
 			); then
 				printf "Pre-install failed: %s\n" "$preInstall"
-				exit 1
+				return 1
 			fi
 			# Download the install script
 			local installScript
@@ -123,7 +123,7 @@ runBrew() {
 	if [[ $EUID -eq 0 ]]; then
 		# If current user is root
 		# Move to brew's home otherwise brew complains the current pwd doesn't exist
-		cd "$brewHome" || exit 1
+		cd "$brewHome" || return 1
 		# Run brew as a user
 		sudo -H -u linuxbrew "$brewHome"/.linuxbrew/bin/brew "${args[@]}"
 	else # If we're already logged as a user

@@ -11,7 +11,7 @@ checkInstall() {
 	local targetFile="$1"
 	# Decode special characters and syntax
 	if ! targetFile=$(decodeFilename "$targetFile"); then
-		echo "$targetFile" && exit 1
+		echo "$targetFile" && return 1
 	fi
 	[ -e "${targetFile/#\~/$HOME}" ] # Replace tilde with home path
 }
@@ -21,7 +21,7 @@ runInstall() {
 	local params="$2"
 	# Decode special characters and syntax
 	if ! targetFile=$(decodeFilename "$targetFile"); then
-		echo "$targetFile" && exit 1
+		echo "$targetFile" && return 1
 	fi
 	processConfigFile "$targetFile" "$params"
 }
@@ -35,7 +35,7 @@ checkUpdates() {
 	local params="$2"
 	# Decode special characters and syntax
 	if ! targetFile=$(decodeFilename "$targetFile"); then
-		echo "$targetFile" && exit 1
+		echo "$targetFile" && return 1
 	fi
 	processConfigFile "$targetFile" "$params" "true" # Specify checkOnly=true
 } 
@@ -45,7 +45,7 @@ runUpdates() {
 	local params="$2"
 	# Decode special characters and syntax
 	if ! targetFile=$(decodeFilename "$targetFile"); then
-		echo "$targetFile" && exit 1
+		echo "$targetFile" && return 1
 	fi
 	processConfigFile "$targetFile" "$params"
 }

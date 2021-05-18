@@ -24,7 +24,7 @@ processModule() {
 	# Import module	
 	local dependencies=""
 	printf "loading %s... " "$module" | nowrap
-	importModule "$module" # This will set the above local variables
+	importModule "$module"  || return # This will set the above local variables
 	# Display current module
 	local prefix
 	prefix="$(displayIcon "$MODULE_TYPE" " ")$MODULE_NAME: "
@@ -39,16 +39,19 @@ processModule() {
 	# and it is more tricky to evaluate if the first command failed, e.g. 
 	# false | indent && echo 'true' displays 'true'
 	# Pre-processing
-	[[ "$(type -t preProcess)" == "function" ]] \
-		&& preProcess "$MODULE_NAME" "$version" > >(indent 2) \
-			&& MODULE_CHANGES=$((MODULE_CHANGES+1))
+	if [[ "$(type -t preProcess)" == "function" ]]; then
+		preProcess "$MODULE_NAME" "$version" > >(indent 2)
+		local exitCode=$?
+		[ $exitCode -eq 0 ] && MODULE_CHANGES=$((MODULE_CHANGES+1))
+		[ $exitCode -eq 1 ] && return 1
+	fi
 	# Process dependencies (run in subshell to isolate env variables, including
 	# module commands)
 	if [[ -n "$dependencies" ]]; then
 		(processDependencies "$dependencies") > >(indent 2)
 		local depStatus=$?
 		# Propagate request to terminate parent shells
-		[ $depStatus -eq 1 ] && exit 1 
+		[ $depStatus -eq 1 ] && return 1 
 		# Indicate there were changes
 		[ ! $depStatus -eq 0 ] && MODULE_CHANGES=$((MODULE_CHANGES+1)) 
 	fi
@@ -73,17 +76,19 @@ processModule() {
 			if [[ -n "$result" ]]; then
 				printf "%b\n" "${RED}failed to check install${NORMAL}"
 				printf "%s\n" "${result}" | indent 2
-				exit 1
+				return 1
 			fi
 			# If module is not yet installed
 			installModule "$MODULE_NAME" "$version" \
-				&& MODULE_CHANGES=$((MODULE_CHANGES+1)) 
+				&& MODULE_CHANGES=$((MODULE_CHANGES+1)) \
+				|| return
 		else
 			# If module is already installed 
  			if $SPM_UPDATE; then
  				# If update was requested
 				updateModule "$MODULE_NAME" "$version" \
-					&& MODULE_CHANGES=$((MODULE_CHANGES+1)) 
+					&& MODULE_CHANGES=$((MODULE_CHANGES+1)) \
+					|| return
 			else # If update was not requested, don't check for updates
 				local installedVersion
 				installedVersion=$(getInstalledVersion "$MODULE_NAME" "$version")
@@ -94,15 +99,18 @@ processModule() {
 		fi
 	fi 
 	# Post-processing
-	[[ $(type -t postProcess) == "function" ]] \
-		&& postProcess "$MODULE_NAME" "$version" > >(indent 2) \
-			&& MODULE_CHANGES=$((MODULE_CHANGES+1)) 
+	if [[ $(type -t postProcess) == "function" ]]; then
+		postProcess "$MODULE_NAME" "$version" > >(indent 2)
+		local exitCode=$?
+		[ $exitCode -eq 0 ] && MODULE_CHANGES=$((MODULE_CHANGES+1))
+		[ $exitCode -eq 1 ] && return 1
+	fi
 	# Clean dependency import
-	unimportModule 
+	unimportModule || return
 	if [ $MODULE_CHANGES -eq 0 ]; then # If module had no changes
 		# Hide if required
 		$SPM_HIDE_UNCHANGED && echo -e "${CLEAR_PREVIOUS_LINE}${PREVIOUS_LINE}" 
-		false # Indicate module had no changes
+		return 2 # Indicate module had no changes
 	else
 		true # Indicate module has changes
 	fi

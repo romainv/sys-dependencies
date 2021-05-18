@@ -21,7 +21,7 @@ rel2abs() {
 		echo "$absPath" # Return absolute path
 	else # If an error occured while determining absolute path
 		echo "Error: $absPath"
-		exit 1 # Indicate failure
+		return 1 # Indicate failure
 	fi
 }
 

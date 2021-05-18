@@ -406,12 +406,12 @@ available for the module.
 once the module is imported. You can use it to dynamically adjust the 
 environment before processing the module, such as adding dependencies. If the 
 function produced an output to `stdout` or `stderr`, it should return `true`, 
-`false` otherwise so that sys-dependencies can properly display progress.  
+otherwise an exit code 2 so that sys-dependencies can properly display progress.  
 - **_postProcess (optional)_**: it will be executed after all the other 
 functions. You can use it to display information or further configuration after 
 a module was installed or updated for instance. If the function produced an 
-output to `stdout` or `stderr`, it should return `true`, `false` otherwise so 
-that sys-dependencies can properly display progress.  
+output to `stdout` or `stderr`, it should return `true`, otherwise an exit code
+2 so that sys-dependencies can properly display progress.  
 
 ## License
 sys-dependencies is [MIT licensed](./LICENSE)
