@@ -6,6 +6,8 @@ source "${BASH_SOURCE%/*}/addToFile.bash"
 source "${BASH_SOURCE%/*}/colors.bash"
 # shellcheck source=cursor.bash
 source "${BASH_SOURCE%/*}/cursor.bash"
+# shellcheck source=downloadGithubRelease.bash
+source "${BASH_SOURCE%/*}/downloadGithubRelease.bash"
 # shellcheck source=elementIn.bash
 source "${BASH_SOURCE%/*}/elementIn.bash"
 # shellcheck source=getOs.bash
