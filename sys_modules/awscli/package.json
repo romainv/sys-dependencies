@@ -1,0 +1,8 @@
+{
+  "name": "AWS CLI",
+  "sysDependencies": {
+    "UBUNTU": {
+      "apt/unzip": "*"
+    }
+  }
+}

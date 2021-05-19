@@ -23,10 +23,10 @@ SPM_DIR=${SPM_DIR:-~/.spm}
 # Clone spm repository
 if [ ! -d "$SPM_DIR/.git" ]; then
 	# If repository doesn't exist yet 
-	git clone https://github.com/romainv/sys-dependencies.git "$SPM_DIR"
+	git clone --quiet https://github.com/romainv/sys-dependencies.git "$SPM_DIR"
 else
 	# If repository was already cloned, update it
-	git -C "$SPM_DIR" pull
+	git -C "$SPM_DIR" pull --quiet
 fi
 
 # Run spm installation (we use update to ensure each dependency and files are
