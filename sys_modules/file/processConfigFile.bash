@@ -31,44 +31,38 @@ processConfigFile() {
 			\"ini\"))" \
 		<<< "${params}" | head -n 1) # Select the first matching action
 	# Perform requested action
-	local updated=false # Will be true if an update was performed or is required
 	case "$action" in
-			addToFile) # If we need to add content to the destination file
-				jq -r ".addToFile[] | @base64" <<< "${params}" \
-					| addToConfigFile "$targetFile" "$checkOnly" \
-					&& updated=true ;; 
-			copy)	# If we need to copy a config file
-				copyConfigFile \
-					"$(jq -j ".copy" <<< "${params}")" \
-					"$targetFile" \
-					"$checkOnly" \
-					&& updated=true ;; 
-			generate) # If we need to generate a config file
-				# Prepend 'true && ' to the command to distinguish it from a file path
-				copyConfigFile \
-					"true && $(jq -j ".generate" <<< "${params}")" \
-					"$targetFile" \
-					"$checkOnly" \
-					&& updated=true ;;
-			link) # If we need to make a symlink
-				linkConfigFile \
-					"$(jq -j ".link" <<< "${params}")" \
-					"$targetFile" \
-					"$checkOnly"
-				local exitCode=$?
-				[ $exitCode -eq 0 ] && updated=true
-				[ $exitCode -eq 1 ] && return
-				;;
-			ini) # If key-values are specified in INI format
-				iniConfigFile \
-					"$targetFile" \
-					"$(jq -j ".ini" <<< "${params}")" \
-					"$checkOnly" \
-					&& updated=true ;;
-			*) # If no action was specified
-				echo "no file operation specified"
-				return 1 ;;
-		esac
-	# Indicate whether there has been changes
-	$updated && return 0 || return 2
+		addToFile) # If we need to add content to the destination file
+			jq -r ".addToFile[] | @base64" <<< "${params}" \
+				| addToConfigFile "$targetFile" "$checkOnly"
+			return ;; 
+		copy)	# If we need to copy a config file
+			copyConfigFile \
+				"$(jq -j ".copy" <<< "${params}")" \
+				"$targetFile" \
+				"$checkOnly"
+			return ;; 
+		generate) # If we need to generate a config file
+			# Prepend 'true && ' to the command to distinguish it from a file path
+			copyConfigFile \
+				"true && $(jq -j ".generate" <<< "${params}")" \
+				"$targetFile" \
+				"$checkOnly"
+			return ;;
+		link) # If we need to make a symlink
+			linkConfigFile \
+				"$(jq -j ".link" <<< "${params}")" \
+				"$targetFile" \
+				"$checkOnly"
+			return ;; 
+		ini) # If key-values are specified in INI format
+			iniConfigFile \
+				"$targetFile" \
+				"$(jq -j ".ini" <<< "${params}")" \
+				"$checkOnly"
+			return ;;
+		*) # If no action was specified
+			echo "no file operation specified"
+			return 1 ;;
+	esac
 }

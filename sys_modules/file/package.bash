@@ -52,7 +52,7 @@ runUpdates() {
 
 postProcess() {
 	local params="$2"
-	local exitCode=1 # Will be turned to 0 if something was displayed
+	local exitCode=2 # Will be turned to 0 if something was displayed
 	if ! $SPM_DRY_RUN && [ "${MODULE_CHANGES:-0}" -gt 0 ]; then 
 		# If file was updated
 		# Command to run if target file gets updated

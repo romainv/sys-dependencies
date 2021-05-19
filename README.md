@@ -71,7 +71,7 @@ To use the [install script](./install.bash), you can either <a
 href="https://raw.githubusercontent.com/romainv/sys-dependencies/master/install.bash"
 download>download it</a> and run it manually, or use the following command:
 ```bash
-curl -Lo- https://raw.githubusercontent.com/romainv/sys-dependencies/master/install.bash | bash
+curl -sLo- https://raw.githubusercontent.com/romainv/sys-dependencies/master/install.bash | bash
 ```
 This requires that [`curl`](http://curl.haxx.se) be installed as well as
 [`git`](https://git-scm.com), as the install script will clone sys-dependencies'
@@ -79,7 +79,7 @@ repository to `~/.spm`. It will also install sys-dependencies' [own
 dependencies](./sys_modules/core/package.json) and add a few lines in your
 `~/.bashrc` file to make the `spm` command available in your shell.  
 To customize the installation directory, you can set the `SPM_DIR` env variable
-to your chosen location: `export SPM_DIR=~/custom-location && curl -Lo- 
+to your chosen location: `export SPM_DIR=~/custom-location && curl -sLo- 
 <install_script_url> | bash`.
 
 ### Source code
