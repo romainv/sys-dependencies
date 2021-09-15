@@ -31,7 +31,7 @@ downloadGithubRelease() {
 	cd "$tmpDir" || return 1 # Move to temporary directory
 	wget -q -nv -O "$filename" "$url" # Download asset
 	[ ! -f "$filename" ] \
-		&& echo "Failed to download $URL: $filename missing" \
+		&& echo "Failed to download $url: $filename missing" \
 		&& return 1	# Quit if download failed
 	if tar ztf "$filename" >/dev/null 2>&1; then
 		# If file is a tar archive (tar can list its content)

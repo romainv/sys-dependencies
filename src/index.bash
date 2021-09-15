@@ -16,7 +16,7 @@ Optional arguments:
   -d, --dry-run         only check for changes but don't execute them
   -s, --skip-core       don't install spm's self dependencies
   -q, --hide-unchanged  don't display modules which didn't change
-	-f, --force           (re)install the dependencies even if not needed
+  -f, --force           (re)install the dependencies even if not needed
   -v, --version         display the current version of spm
 END
 )

@@ -19,8 +19,10 @@ runInstall() {
 		[ -d "$pyenvDir" ] && rm -rf -- "$pyenvDir" 2>&1
 		# Install pyenv
 		curl https://pyenv.run 2>/dev/null | bash 2>&1 
-		# Edit .bashrc file
-		addToFile 'export PATH="$HOME/.pyenv/bin:$PATH"' ~/.bashrc
+		# Edit .bash_profile and .bashrc file
+		addToFile 'export PYENV_ROOT="$HOME/.pyenv"' ~/.bash_profile
+		addToFile 'export PATH="$PYENV_ROOT/bin:$PATH"' ~/.bash_profile
+		addToFile 'eval "$(pyenv init --path)"' ~/.bash_profile
 		addToFile 'eval "$(pyenv init -)"' ~/.bashrc
 		# shellcheck source=/dev/null
 		source ~/.bashrc
@@ -43,7 +45,12 @@ getLatestVersion() {
 }
 
 checkUpdates() {
-	[[ $(getInstalledVersion) != $(getLatestVersion) ]]
+	local installedVersion
+	installedVersion=$(getInstalledVersion)
+	local latestVersion
+	latestVersion=$(getLatestVersion)
+	# Check version number prior to the first dash
+	[[ "${installedVersion%%-*}" != "${latestVersion%%-*}" ]]
 }
 
 runUpdates() {
