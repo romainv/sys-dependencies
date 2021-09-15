@@ -62,7 +62,7 @@ spm() {
 	fi
 
 	# Setup dependencies and env variables
-	if [ -z "${SPM_DIR+x}" ]; then
+	if [ -z "${SPM_DIR}" ]; then
 		# If SPM_DIR was not set
 		# Retrieve the current file's parent directory, including when symlinked
 		SPM_DIR=$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")" \
