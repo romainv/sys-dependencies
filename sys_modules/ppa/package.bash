@@ -7,7 +7,7 @@ checkInstall() {
 	[ -f /etc/apt/sources.list ] \
 		&& [ -d /etc/apt/sources.list.d ] \
 		&& files=$(ls -qAH -- /etc/apt/sources.list.d) \
-		&& [ -z "$files" ] \
+		&& [ -n "$files" ] \
 		&& grep -q "^deb .*$name" /etc/apt/sources.list /etc/apt/sources.list.d/*
 }
 
