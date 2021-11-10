@@ -13,7 +13,7 @@ checkInstall() {
 
 runInstall() {
 	local name="$1" 
-	sudo add-apt-repository "ppa:$name" 2>&1
+	sudo add-apt-repository -y "ppa:$name" 2>&1
 	sudo apt-get update 2>&1
 }
 
