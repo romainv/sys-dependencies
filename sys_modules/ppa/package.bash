@@ -3,8 +3,11 @@
 
 checkInstall() {
 	local name="$1" 
+	local files
 	[ -f /etc/apt/sources.list ] \
 		&& [ -d /etc/apt/sources.list.d ] \
+		&& files=$(ls -qAH -- /etc/apt/sources.list.d) \
+		&& [ -z "$files" ] \
 		&& grep -q "^deb .*$name" /etc/apt/sources.list /etc/apt/sources.list.d/*
 }
 
