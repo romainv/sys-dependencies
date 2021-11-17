@@ -27,6 +27,7 @@ checkInstall() {
 
 runInstall() {
 	local name="$1"
+	local version="$2"
 	if [[ "$name" == "brew" ]]; then # brew itself
 		if [ -f /.dockerenv ]; then
 			# If we're on Docker with the root user, we need to create a new user and 
@@ -67,7 +68,12 @@ runInstall() {
 			source ~/.bashrc
 		fi
 	else # A brew package
-		runBrew install "$name" 2>&1
+		if [[ -n "$version" && "$version" != "*" ]]; then
+			# If a version was specified
+			runBrew install "$name" "$version" 2>&1
+		else # If no version was specified
+			runBrew install "$name" 2>&1
+		fi
 	fi
 }
 
