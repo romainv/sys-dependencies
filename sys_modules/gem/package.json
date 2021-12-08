@@ -1,13 +1,6 @@
 {
   "name": "Gem package",
   "sysDependencies": {
-    "brew/ruby": "*",
-    "UBUNTU": {
-      "file/~/.bashrc": {
-				"addToFile": [
-					"export PATH=\"/home/linuxbrew/.linuxbrew/lib/ruby/gems/2.7.0/bin:$PATH\""
-				]
-			}
-    }
+    "brew/ruby": "*"
   }
 }
