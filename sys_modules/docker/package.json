@@ -1,0 +1,11 @@
+{
+  "name": "Docker",
+  "sysDependencies": {
+  	"docker-repo": "*",
+		"UBUNTU": {
+			"apt/docker-ce": "*",
+			"apt/docker-ce-cli": "*",
+			"apt/containerd.io": "*"
+		}
+  }
+}

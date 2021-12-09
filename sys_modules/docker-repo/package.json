@@ -1,0 +1,11 @@
+{
+  "name": "Docker repository",
+  "sysDependencies": {
+		"UBUNTU": {
+			"apt/ca-certificates": "*",
+    	"apt/curl": "*",
+    	"apt/gnupg": "*",
+    	"apt/lsb-release": "*"
+		}
+  }
+}
