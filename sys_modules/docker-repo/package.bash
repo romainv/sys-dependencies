@@ -17,6 +17,8 @@ runInstall() {
 		"$(lsb_release -cs)" \
 		"stable" \
 		| sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+	# Refresh apt
+	sudo apt-get update 2>&1
 }
 
 # No versioning
