@@ -13,7 +13,12 @@ checkInstall() {
 runInstall() {
 	local latestVersion
 	latestVersion=$(getLatestVersion)
-	PATH="$HOME/.pyenv/bin:$PATH" pyenv install "${latestVersion}" 2>&1
+	# Remove homebrew from PATH before launching install as this may lead to
+	# broken python dependencies (e.g. _ctypes)
+	PATH=$(
+		echo "$HOME/.pyenv/bin:$PATH" \
+		| sed -e 's|/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:||'
+	) pyenv install "${latestVersion}" 2>&1
 }
 
 getInstalledVersion() { 
