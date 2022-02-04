@@ -19,10 +19,10 @@ runInstall() {
 		[ -d "$pyenvDir" ] && rm -rf -- "$pyenvDir" 2>&1
 		# Install pyenv
 		curl https://pyenv.run 2>/dev/null | bash 2>&1 
-		# Edit .bash_profile and .bashrc file
-		addToFile 'export PYENV_ROOT="$HOME/.pyenv"' ~/.bash_profile
-		addToFile 'export PATH="$PYENV_ROOT/bin:$PATH"' ~/.bash_profile
-		addToFile 'eval "$(pyenv init --path)"' ~/.bash_profile
+		# Edit .profile and .bashrc file
+		addToFile 'export PYENV_ROOT="$HOME/.pyenv"' ~/.profile
+		addToFile 'export PATH="$PYENV_ROOT/bin:$PATH"' ~/.profile
+		addToFile 'eval "$(pyenv init --path)"' ~/.profile
 		addToFile 'eval "$(pyenv init -)"' ~/.bashrc
 		# shellcheck source=/dev/null
 		source ~/.bashrc
