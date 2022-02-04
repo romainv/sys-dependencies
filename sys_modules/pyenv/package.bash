@@ -21,7 +21,7 @@ runInstall() {
 		curl https://pyenv.run 2>/dev/null | bash 2>&1 
 		# Configure shell environment
 		# The sed invocation inserts the lines at the start of the file after any 
-		initial comment lines
+		# initial comment lines
 		sed -Ei -e '/^([^#]|$)/ {a \
 export PYENV_ROOT="$HOME/.pyenv"
 a \
