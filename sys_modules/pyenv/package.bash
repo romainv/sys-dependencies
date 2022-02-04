@@ -19,11 +19,17 @@ runInstall() {
 		[ -d "$pyenvDir" ] && rm -rf -- "$pyenvDir" 2>&1
 		# Install pyenv
 		curl https://pyenv.run 2>/dev/null | bash 2>&1 
-		# Edit .profile and .bashrc file
-		addToFile 'export PYENV_ROOT="$HOME/.pyenv"' ~/.profile
-		addToFile 'export PATH="$PYENV_ROOT/bin:$PATH"' ~/.profile
-		addToFile 'eval "$(pyenv init --path)"' ~/.profile
-		addToFile 'eval "$(pyenv init -)"' ~/.bashrc
+		# Configure shell environment
+		# The sed invocation inserts the lines at the start of the file after any 
+		initial comment lines
+		sed -Ei -e '/^([^#]|$)/ {a \
+export PYENV_ROOT="$HOME/.pyenv"
+a \
+export PATH="$PYENV_ROOT/bin:$PATH"
+a \
+' -e ':a' -e '$!{n;ba};}' ~/.profile
+		echo 'eval "$(pyenv init --path)"' >>~/.profile
+		echo 'eval "$(pyenv init -)"' >> ~/.bashrc
 		# shellcheck source=/dev/null
 		source ~/.bashrc
 	fi
