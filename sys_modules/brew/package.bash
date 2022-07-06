@@ -17,7 +17,15 @@ checkInstall() {
 		# Make sure brew is in PATH if we just installed it
 		PATH="/home/linuxbrew/.linuxbrew/bin:${PATH}" isCommand brew
 	else # A brew package
-		runBrew list "$name" 2>&1
+		local res
+		if res=$(runBrew list "$name" 2>&1); then
+			return 0 # Already installed
+		elif [[ "$res" == *"No such keg"* ]]; then
+			return 1 # Not installed
+		else # Unexpected error
+			echo "$res" # Display the error (will make this check unsuccessful)
+			return 1
+		fi
 	fi
 }
 
