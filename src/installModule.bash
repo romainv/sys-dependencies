@@ -18,7 +18,7 @@ installModule() {
 					&& installedVersion=" (v${installedVersion})"
 				echo "${GREEN}install complete${NORMAL}${installedVersion}" | nowrap
 			else
-				echo "${RED}install check failed${NORMAL}" 
+				echo "${RED}install verification failed${NORMAL}" 
 				# Display installation log
 				[ -n "$result" ] && printf "Install log:\n%s\n" "$result" | indent 2 
 				# Display check log
