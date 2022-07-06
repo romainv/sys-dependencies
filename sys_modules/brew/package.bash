@@ -15,11 +15,7 @@ checkInstall() {
 	local name="$1"
 	if [[ "$name" == "brew" ]]; then # brew itself, not one of its packages
 		# Make sure brew is in PATH if we just installed it
-		# shellcheck source=/dev/null
-		[[ "$CURRENT_OS" == "UBUNTU" ]] && source ~/.bashrc 
-		# On Docker, we need to set path manually
-		[ -f /.dockerenv ] && PATH="/home/linuxbrew/.linuxbrew/bin:${PATH}"
-		isCommand brew
+		PATH="/home/linuxbrew/.linuxbrew/bin:${PATH}" isCommand brew
 	else # A brew package
 		runBrew list "$name" 2>&1
 	fi
@@ -60,8 +56,13 @@ runInstall() {
 			# Add to path (not necessary on MACOS)
 			local brewHome="/home/linuxbrew/.linuxbrew"
 			local exports
-			exports=$(cd "$brewHome" \
-				&& sudo -H -u linuxbrew "$brewHome"/bin/brew shellenv)
+			if id "linuxbrew" &>/dev/null; then
+				# If user linuxbrew exists
+				exports=$(cd "$brewHome" \
+					&& sudo -H -u linuxbrew "$brewHome"/bin/brew shellenv)
+			else
+				exports=$(cd "$brewHome" && "$brewHome"/bin/brew shellenv)
+			fi
 			test -d "$brewHome" && eval "$exports"
 			addToFile "$exports" ~/.bashrc
 			# shellcheck source=/dev/null
