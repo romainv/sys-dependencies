@@ -20,7 +20,8 @@ checkInstall() {
 		local res
 		if res=$(runBrew list "$name" 2>&1); then
 			return 0 # Already installed
-		elif [[ "$res" == *"No such keg"* ]]; then
+		elif [[ "$res" == *"No such keg"* || "$res" == *"No available formula"* ]];
+		then
 			return 1 # Not installed
 		else # Unexpected error
 			echo "$res" # Display the error (will make this check unsuccessful)
