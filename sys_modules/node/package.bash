@@ -5,26 +5,23 @@ checkInstall() {
 	local branch="$1"
 	local version="$2"
 	local versionFile
+	# Source nvm if available, in case it was just installed
+	# shellcheck source=/dev/null
+	[ -s "$HOME/.nvm/nvm.sh" ] && source "$HOME/.nvm/nvm.sh" &> /dev/null
 	# Check if node command exists, and that the specified version is installed
 	isCommand node && {
 		if versionFile=$(cd "$PWD_BACKUP" && upsearch ".nvmrc"); then
 			# If a version is configured in a .nvmrc file 
 			version=$(cat "$versionFile")
 			# Check if the version is installed (exit code >0 if not)
-			# shellcheck source=/dev/null
-			source "$HOME/.nvm/nvm.sh" &> /dev/null # Source nvm
 			nvm ls "$version" &> /dev/null
 		else # If no version was configured in a .nvmrc file
 			if [[ -n "$version" && "$version" != '*' ]]; then
 				# If a specific version was provided
-				# shellcheck source=/dev/null
-				source "$HOME/.nvm/nvm.sh" &> /dev/null # Source nvm
 				nvm ls "$version" &> /dev/null
 			elif [[ "$branch" != "node" ]]; then
-				# shellcheck source=/dev/null
-				source "$HOME/.nvm/nvm.sh" &> /dev/null # Source nvm
 				# If a specific branch was provided
-				nvm ls"$branch" &> /dev/null
+				nvm ls "$branch" &> /dev/null
 			else # No specific version required
 				true 
 			fi
