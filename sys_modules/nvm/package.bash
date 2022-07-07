@@ -22,6 +22,7 @@ runInstall() {
 		# shellcheck source=/dev/null
 		source ~/.bashrc # Sets NVM_DIR in current environment
 	fi
+	return 0 # Indicate success
 }
 
 getInstalledVersion() { 
