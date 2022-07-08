@@ -5,7 +5,7 @@
 checkInstall() {
 	local name="$1" 
 	# Check if package is installed globally
-	npm list --depth 1 --global "$name" > /dev/null 2>&1 
+	npm list --depth 1 --location=global "$name" > /dev/null 2>&1 
 }
 
 runInstall() {

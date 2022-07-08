@@ -1,8 +1,4 @@
 {
   "name": "Pip package",
-  "sysDependencies": {
-    "UBUNTU": {
-      "apt/python3-pip": "*"
-    }
-  }
+  "sysDependencies": {}
 }

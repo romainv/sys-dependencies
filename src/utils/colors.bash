@@ -1,5 +1,5 @@
 # Color definitions (source: https://stackoverflow.com/questions/4332478)
-if [ -t 1 ]; then
+if [ -t 1 ] && [[ "$(tput 2>&1)" != "unknown terminal"* ]]; then
 	# If stdout is a terminal
 	ncolors=$(tput colors 2>/dev/null) # Retrieve the number of colors available
 	if [ -n "$ncolors" ] && [ "$ncolors" -ge 8 ]; then
