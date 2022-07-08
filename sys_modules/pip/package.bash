@@ -44,5 +44,5 @@ runPip3() {
 	local args
 	args=("$@") # Capture arguments
 	# Make sure pyenv is in path, and use it to locate the right version of pip
-	PATH="$HOME/.pyenv/shims:$PATH" $(pyenv which pip3) "${args[@]}" 
+	PATH="$HOME/.pyenv/bin:$PATH" $(pyenv which pip3) "${args[@]}" 
 }
