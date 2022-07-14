@@ -5,7 +5,9 @@ displayIcon() {
 	local moduleType="$1"
 	local suffix="$2"
 	local charmap
-	if charmap=$(locale charmap 2>/dev/null) && [[ "$charmap" == "UTF-8" ]]; then
+	if [ -n "${IS_TERMINAL-}" ] \
+		&& charmap=$(locale charmap 2>/dev/null) \
+		&& [[ "$charmap" == "UTF-8" ]]; then
 		# If terminal supports unicode characters
 		local icon="" # Will contain the icon to display
 		case $moduleType in
